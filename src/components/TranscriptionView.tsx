@@ -1,6 +1,7 @@
 import React from 'react';
 import { TranscriptionResult } from '../types';
-import { ArrowLeft, Copy, Download, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, Copy, Download, CheckCircle2, FileDown } from 'lucide-react';
+import { generatePDF } from '../services/pdfService';
 
 interface TranscriptionViewProps {
     image: File;
@@ -11,6 +12,7 @@ interface TranscriptionViewProps {
 export const TranscriptionView: React.FC<TranscriptionViewProps> = ({ image, result, onReset }) => {
     const imageUrl = React.useMemo(() => URL.createObjectURL(image), [image]);
     const [copied, setCopied] = React.useState(false);
+    const [generatingPDF, setGeneratingPDF] = React.useState(false);
 
     const getConfidenceColor = (confidence: number): string => {
         if (confidence >= 95) return 'text-green-600 bg-green-50 border-green-200';
@@ -32,6 +34,18 @@ export const TranscriptionView: React.FC<TranscriptionViewProps> = ({ image, res
         a.download = `kurrent-transkription-${Date.now()}.txt`;
         a.click();
         URL.revokeObjectURL(url);
+    };
+
+    const handlePDFDownload = async () => {
+        try {
+            setGeneratingPDF(true);
+            await generatePDF(result, image);
+        } catch (error) {
+            console.error('PDF generation failed:', error);
+            alert('PDF konnte nicht erstellt werden. Bitte versuchen Sie es erneut.');
+        } finally {
+            setGeneratingPDF(false);
+        }
     };
 
     return (
@@ -73,11 +87,20 @@ export const TranscriptionView: React.FC<TranscriptionViewProps> = ({ image, res
                             </button>
                             <button
                                 onClick={handleDownload}
-                                className="flex items-center gap-2 px-3 py-2 text-sm bg-[#2d2a26] text-white rounded-md hover:bg-[#403d38] transition-colors"
+                                className="flex items-center gap-2 px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50 text-gray-700"
                                 title="Als Textdatei herunterladen"
                             >
                                 <Download size={16} />
-                                <span className="hidden sm:inline">Download</span>
+                                <span className="hidden sm:inline">TXT</span>
+                            </button>
+                            <button
+                                onClick={handlePDFDownload}
+                                disabled={generatingPDF}
+                                className="flex items-center gap-2 px-3 py-2 text-sm bg-[#2d2a26] text-white rounded-md hover:bg-[#403d38] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                title="Als PDF herunterladen"
+                            >
+                                <FileDown size={16} />
+                                <span className="hidden sm:inline">{generatingPDF ? 'Erstelle...' : 'PDF'}</span>
                             </button>
                         </div>
                     </div>
