@@ -104,15 +104,6 @@ export const transcribeKurrent = async (imageFile: File): Promise<TranscriptionR
                 };
             }
 
-            // Format words and page structure
-            const formattedWords = parsed.words?.map((w: { original?: string; modern?: string; confidence?: number }) => ({
-                original: w.original || '',
-                modern: w.modern || '',
-                confidence: w.confidence || 0
-            })) || [];
-
-            const formattedPages = parsed.pages?.map((word: { text?: string }) => word.text || '').join(' ') || '';
-
             // Build full text from segments
             const fullText = parsed.segments.map((seg: any) => seg.text).join(' ');
 
