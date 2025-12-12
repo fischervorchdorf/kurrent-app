@@ -85,9 +85,9 @@ export const transcribeKurrent = async (imageFile: File): Promise<TranscriptionR
             } catch (parseError) {
                 console.error("JSON parse failed, using fallback:", parseError);
                 // Fallback: create simple segments from the raw text
-                const words = text.split(/\s+/).filter(w => w.length > 0);
+                const words = text.split(/\s+/).filter((w: string) => w.length > 0);
                 parsed = {
-                    segments: words.map(word => ({
+                    segments: words.map((word: string) => ({
                         text: word,
                         confidence: 75 // Medium confidence as fallback
                     }))
