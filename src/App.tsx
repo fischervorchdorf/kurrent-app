@@ -39,7 +39,7 @@ const App: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#fdfcf8] flex flex-col font-sans">
+        <div className="min-h-screen bg-museum-paper flex flex-col font-sans">
             <Header onInfoClick={() => setIsInfoModalOpen(true)} />
             <InfoModal isOpen={isInfoModalOpen} onClose={() => setIsInfoModalOpen(false)} />
 
@@ -95,9 +95,16 @@ const App: React.FC = () => {
 
             </main>
 
-            <footer className="bg-white border-t border-gray-200 py-6 mt-auto">
-                <div className="container mx-auto text-center text-sm text-gray-400">
-                    <p>&copy; {new Date().getFullYear()} Kurrent goes Future. Powered by Gemini AI.</p>
+            <footer className="bg-white border-t border-museum-stone/20 py-6 mt-auto">
+                <div className="container mx-auto text-center">
+                    <p className="text-sm text-gray-700">
+                        &copy; {new Date().getFullYear()} Kurrent • Powered by{' '}
+                        <span className="font-semibold text-museum-charcoal">Heimatverein Vorchdorf</span>
+                        {' '}• Version 1.3
+                    </p>
+                    <p className="text-xs text-gray-600 mt-1">
+                        KI-gestützte Kurrentschrift-Transkription
+                    </p>
                 </div>
             </footer>
         </div>

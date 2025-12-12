@@ -1,3 +1,5 @@
+import typography from '@tailwindcss/typography';
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -7,21 +9,30 @@ export default {
   theme: {
     extend: {
       colors: {
-        'museum-paper': '#fdfcf8',
-        'museum-charcoal': '#2d2a26',
-        'museum-stone': '#e5e0d6',
-        'museum-gold': '#c5a059',
-      },
-      backgroundImage: {
-        'gold-gradient': 'linear-gradient(135deg, #c5a059 0%, #d4b06a 100%)',
+        museum: {
+          charcoal: '#1C1B1A', // Deep black-grey
+          gold: '#C5A059',     // Muted antique gold
+          paper: '#F9F8F6',    // Warm white - EXACTLY like WasBinIch!
+          stone: '#E6E2D3',    // Beige border color
+          sage: '#8B9A7D',     // Optional sage color
+          text: '#2C2C2C'
+        }
       },
       fontFamily: {
-        'serif': ['Cinzel', 'serif'],
-        'sans': ['Inter', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        serif: ['Cinzel', 'Georgia', 'serif'],
+        display: ['Playfair Display', 'serif'],
+      },
+      backgroundImage: {
+        'gold-gradient': 'linear-gradient(135deg, #C5A059 0%, #E5C57F 50%, #C5A059 100%)',
+      },
+      boxShadow: {
+        'card': '0 10px 30px -10px rgba(28, 27, 26, 0.08)',
+        'gold': '0 0 15px rgba(197, 160, 89, 0.2)',
       }
     },
   },
   plugins: [
-    require('@tailwindcss/typography'),
+    typography,
   ],
 }
